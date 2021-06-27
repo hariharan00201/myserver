@@ -1,0 +1,10 @@
+runtime: python
+env : flex
+entrypoint: "python server.py"
+
+manual_scaling:
+  instances: 4
+resources:
+  cpu: 2
+  disk_size_gb: 10
+  memory_gb: 4

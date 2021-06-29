@@ -3,8 +3,6 @@ import json
 import websockets
 import blogDataSource
 import datasource
-import localsession
-
 
 
 async def echo(websocket, path):
@@ -58,12 +56,10 @@ def update_profile(message):
 
 def checkUserProfile(message):
     email = message['email']
-    try:
-        if localsession.session[email]:
-            return True
+    if datasource.sessioncheck(email):
+          return True
             #emit('res_check', {'status': "ok"})
-    except:
-        return False
+    return False
         #emit('res_check', {'status': "notok"})
 
 
@@ -74,7 +70,7 @@ def send_blogs(message):
 
 
 asyncio.get_event_loop().run_until_complete(
-    websockets.serve(echo, '    0.0.0.0', 9999))
+    websockets.serve(echo, '0.0.0.0', 443))
 asyncio.get_event_loop().run_forever()
 
 

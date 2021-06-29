@@ -1,12 +1,13 @@
 import ssl
 import pymongo
 
-
+client2 = pymongo.MongoClient("mongodb+srv://sfe:halosfe00201@cluster0.kslqs.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",ssl_cert_reqs=ssl.CERT_NONE)
 client = pymongo.MongoClient("mongodb+srv://solutionsforeverything:halosfe00201@cluster0.luuxz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",ssl_cert_reqs=ssl.CERT_NONE)
 db = client['user_details']
 collection = db['users']
 collection1 = db['msg_from_users']
-
+db2 =client2['sessiondb']
+session_collection = db2['sfe']
 def addUser(uname , email ,passd):
     res = collection.find({"mail": email})
     if res.count() >= 1:
@@ -71,3 +72,8 @@ def getProfileDetails(email):
 
 def updatePhoto(email , photo):
     collection.update_one({"mail":email},{"$set":{"photo":photo}})
+def checksession(email):
+    res = session_collection.find({"email":email})
+    if res.count() == 1:
+        return True
+    return False
